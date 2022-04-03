@@ -57,7 +57,7 @@ def create_vtk_dump(step: int):
 def read_time_series():
     vtk_series = []
 
-    for step in range(200, 2400 + 1, 200):
+    for step in range(11200, 20000 + 1, 200):
         vtk_series.append((create_vtk_dump(step), step))
 
     tmp = [VPT_TEMPLATE.format(time_step=time, file_name=vtk_file) for vtk_file, time in vtk_series]
