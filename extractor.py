@@ -33,7 +33,7 @@ class ParticleSmall:
     process_rank: int
 
 
-async def read_binary_dump(fname: str, mpiRank: int):
+def read_binary_dump(fname: str, mpiRank: int):
     output = []
     with open(fname, 'rb') as f:
 
@@ -117,7 +117,7 @@ async def read_particles_dump(step: int):
         if len(res) > 0:
             time_index, mpi_rank = [int(i) for i in res[0]]
             if time_index == step:
-                particles += await read_binary_dump(os.path.join(particles_savepoints, f), mpi_rank)
+                particles += read_binary_dump(os.path.join(particles_savepoints, f), mpi_rank)
 
     return particles
 
