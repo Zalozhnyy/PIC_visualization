@@ -22,9 +22,8 @@ file="{file_name}"/>
 '''
 
 
-async def create_vtk_dump(step: int):
-    await asyncio.sleep(1)
-    particles = await read_particles_dump(step)
+def create_vtk_dump(step: int):
+    particles = read_particles_dump(step)
 
     if len(particles) > 0:
         pts = vtk.vtkPoints()
@@ -56,15 +55,12 @@ async def create_vtk_dump(step: int):
     return f'particles_{step}.vtp'
 
 
-async def read_time_series():
+def read_time_series():
     vtk_series = []
 
-    r = await asyncio.gather(*[create_vtk_dump(step) for step in range(500, 9001, 500)])
-    print(r)
+    for step in range(500, 9000 + 1, 500):
+        vtk_series.append((create_vtk_dump(step), step))
 
-    # for step in range(500, 9000 + 1, 500):
-    #     vtk_series.append((create_vtk_dump(step), step))
-    #
     tmp = [VPT_TEMPLATE.format(time_step=time, file_name=vtk_file) for vtk_file, time in vtk_series]
 
     with open(os.path.join(SAVE_PREFIX, 'particles.pvd'), 'w', encoding='utf-8') as f:
@@ -76,5 +72,5 @@ def read_single_file(step: int):
 
 
 if __name__ == '__main__':
-    asyncio.run(read_time_series())
+    read_time_series()
     # read_single_file(200)

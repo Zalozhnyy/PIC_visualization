@@ -107,7 +107,7 @@ def read_binary_dump_generator(fname: str, mpiRank: int):
             yield p
 
 
-async def read_particles_dump(step: int):
+def read_particles_dump(step: int):
     particles: List[Particle] = []
 
     particles_savepoints = os.path.join(PROJECT_PATH, 'particles_savepoints')
